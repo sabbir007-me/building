@@ -8,7 +8,7 @@ Create a Supabase project, then copy its **Project URL** and **anon public key**
 Copy-Item .env.example .env.local
 ```
 
-Only `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` belong in the browser. Never put a `service_role` key in `.env.local` or commit it.
+Only `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` belong in the browser. Never put a `service_role` key in `.env.local` or commit it.
 
 ## 2. Install the schema
 
@@ -24,7 +24,17 @@ The client helper [`src/lib/supabase-data.js`](../src/lib/supabase-data.js) load
 
 ## 5. Seed data
 
-The existing records in [`src/data/rentease.js`](../src/data/rentease.js) are demo-only and use local IDs. Do not copy their passwords into Supabase. Create real users through Auth, then insert properties and related records using those users' profile UUIDs.
+In Supabase SQL Editor, run [`supabase/seed.sql`](../supabase/seed.sql) after the migration. It creates five confirmed demo accounts and all current sample records. Demo logins are:
+
+| Role | Email | Password |
+|---|---|---|
+| Tenant | `tenant@rentease.demo` | `Tenant123!` |
+| Tenant | `tenant2@rentease.demo` | `Tenant123!` |
+| Landlord | `landlord@rentease.demo` | `Landlord123!` |
+| Landlord | `landlord2@rentease.demo` | `Landlord123!` |
+| Admin | `admin@rentease.demo` | `Admin123!` |
+
+These are illustrative credentials only. Change or remove them before production.
 
 ## 6. Run
 
