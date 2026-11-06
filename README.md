@@ -24,17 +24,19 @@ Open [http://localhost:3000](http://localhost:3000). Environment configuration i
 
 Protected dashboard layouts check the locally stored demo session and redirect users to their role's dashboard. This is a front-end demonstration, not production access control.
 
-## Demo accounts
+## Supabase demo access
 
-The login page's Demo access controls can fill these sample credentials:
+These three Supabase Auth accounts were verified against the connected project:
 
 | Role | Email | Password |
 |---|---|---|
 | Tenant | `tenantdemo@gmail.com` | `demo@1234` |
 | Landlord | `landlord@gmail.com` | `demo@1234` |
-| Administrator | `admin123@gmail.com` | `demo@1234` |
+| Administrator | `admin@rentease.demo` | `demo@1234` |
 
 Use only these illustrative credentials; do not enter a real password or confidential data.
+
+The profile rows shown in Supabase Table Editor are database records, not passwords. Supabase never exposes passwords through the API, so an account is usable only when its Auth password is known and verified.
 
 ## Persistence
 
@@ -43,6 +45,10 @@ In Supabase mode, the database seed is [`supabase/seed.sql`](supabase/seed.sql).
 Profiles, listings, applications, rental agreements, rent and utility payment records, maintenance requests, and notifications are saved in one shared data object. Updates dispatch a same-tab event and browser storage events refresh open tabs. Use **Reset demo data** in the dashboard profile menu and confirm to restore original records and sign out.
 
 With Supabase configured, authentication uses Supabase Auth, data is loaded from Postgres, and Realtime changes are held in memory for the current page. The local demo dataset and browser data persistence are disabled; dashboard write handlers must use Supabase CRUD operations. See [Supabase setup](docs/SUPABASE_SETUP.md).
+
+## Registration troubleshooting
+
+New account creation currently returns Supabase `429 over_email_send_rate_limit` because the project's confirmation-email quota has been exhausted. This is a Supabase email-provider limit, not a frontend validation error. For local/demo use, disable **Confirm email** in Supabase Dashboard > Authentication > Providers > Email, or configure a custom SMTP provider before enabling registration again.
 
 ## Quality checks
 

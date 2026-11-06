@@ -1,7 +1,7 @@
 export const demoAccounts = [
     { role: 'tenant', email: 'tenantdemo@gmail.com', password: 'demo@1234' },
     { role: 'landlord', email: 'landlord@gmail.com', password: 'demo@1234' },
-    { role: 'admin', email: 'admin123@gmail.com', password: 'demo@1234' },
+    { role: 'admin', email: 'admin@rentease.demo', password: 'demo@1234' },
 ];
 export const seedDemoData = {
     users: [

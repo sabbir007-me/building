@@ -4,7 +4,7 @@ const tables = ['profiles', 'properties', 'applications', 'rentals', 'payments',
 
 function assertConfigured() {
     if (!supabase) {
-        throw new Error('Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.');
+        throw new Error('Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.');
     }
 }
 

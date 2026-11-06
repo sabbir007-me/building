@@ -53,9 +53,9 @@ export default function AuthForm({ mode, initialRole = 'tenant' }) {
         if (supabase) {
             try {
                 if (mode === 'login') {
-                    await signIn(normalizedEmail, password);
+                    const authenticatedUser = await signIn(normalizedEmail, password);
                     const data = await fetchRentEaseData();
-                    const user = data.users.find((item) => item.email.toLowerCase() === normalizedEmail);
+                    const user = data.users.find((item) => item.id === authenticatedUser.id);
                     if (!user)
                         throw new Error('Your account profile has not finished setting up. Try again in a moment.');
                     if (user.status !== 'Active')
@@ -83,7 +83,10 @@ export default function AuthForm({ mode, initialRole = 'tenant' }) {
                 return;
             }
             catch (supabaseError) {
-                setError(supabaseError instanceof Error ? supabaseError.message : 'Supabase authentication failed.');
+                const errorText = supabaseError instanceof Error ? supabaseError.message : 'Supabase authentication failed.';
+                setError(errorText.includes('email_send_rate_limit') || errorText.includes('rate limit')
+                    ? 'Supabase is temporarily limiting new sign-ups because too many confirmation emails were requested. Try again later, or disable email confirmation in Supabase Auth settings for this demo.'
+                    : errorText);
                 setLoading(false);
                 return;
             }

@@ -12,10 +12,10 @@ insert into auth.users (
 )
 values
   ('11111111-1111-4111-8111-111111111111', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'tenantdemo@gmail.com', crypt('demo@1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Nusrat Jahan","phone":"+880 1712-345678","role":"tenant"}', false, '', '', '', ''),
-  ('22222222-2222-4222-8222-222222222222', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'tenant2@rentease.demo', crypt('Tenant123!', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Tanvir Hasan","phone":"+880 1612-345678","role":"tenant"}', false, '', '', '', ''),
+  ('22222222-2222-4222-8222-222222222222', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'tenant2@rentease.demo', crypt('demo@1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Tanvir Hasan","phone":"+880 1612-345678","role":"tenant"}', false, '', '', '', ''),
   ('33333333-3333-4333-8333-333333333333', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'landlord@gmail.com', crypt('demo@1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Farhan Ahmed","phone":"+880 1812-345678","role":"landlord"}', false, '', '', '', ''),
-  ('44444444-4444-4444-8444-444444444444', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'landlord2@rentease.demo', crypt('Landlord123!', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Rashida Karim","phone":"+880 1512-345678","role":"landlord"}', false, '', '', '', ''),
-  ('55555555-5555-4555-8555-555555555555', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'admin123@gmail.com', crypt('demo@1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Samira Rahman","phone":"+880 1912-345678","role":"admin"}', false, '', '', '', '')
+  ('44444444-4444-4444-8444-444444444444', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'landlord2@rentease.demo', crypt('demo@1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Rashida Karim","phone":"+880 1512-345678","role":"landlord"}', false, '', '', '', ''),
+  ('55555555-5555-4555-8555-555555555555', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'admin@rentease.demo', crypt('demo@1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Samira Rahman","phone":"+880 1912-345678","role":"admin"}', false, '', '', '', '')
 on conflict (id) do update set email = excluded.email, encrypted_password = excluded.encrypted_password, raw_user_meta_data = excluded.raw_user_meta_data, updated_at = now();
 
 insert into auth.identities (id, user_id, provider, identity_data, provider_id, created_at, updated_at)
@@ -24,7 +24,7 @@ values
   ('22222222-2222-4222-8222-222222222222', '22222222-2222-4222-8222-222222222222', 'email', '{"sub":"22222222-2222-4222-8222-222222222222","email":"tenant2@rentease.demo"}', '22222222-2222-4222-8222-222222222222', now(), now()),
   ('33333333-3333-4333-8333-333333333333', '33333333-3333-4333-8333-333333333333', 'email', '{"sub":"33333333-3333-4333-8333-333333333333","email":"landlord@gmail.com"}', '33333333-3333-4333-8333-333333333333', now(), now()),
   ('44444444-4444-4444-8444-444444444444', '44444444-4444-4444-8444-444444444444', 'email', '{"sub":"44444444-4444-4444-8444-444444444444","email":"landlord2@rentease.demo"}', '44444444-4444-4444-8444-444444444444', now(), now()),
-  ('55555555-5555-4555-8555-555555555555', '55555555-5555-4555-8555-555555555555', 'email', '{"sub":"55555555-5555-4555-8555-555555555555","email":"admin123@gmail.com"}', '55555555-5555-4555-8555-555555555555', now(), now())
+  ('55555555-5555-4555-8555-555555555555', '55555555-5555-4555-8555-555555555555', 'email', '{"sub":"55555555-5555-4555-8555-555555555555","email":"admin@rentease.demo"}', '55555555-5555-4555-8555-555555555555', now(), now())
 on conflict (provider_id, provider) do update set identity_data = excluded.identity_data, updated_at = now();
 
 insert into public.profiles (id, name, email, phone, role, status)
@@ -33,7 +33,7 @@ values
   ('22222222-2222-4222-8222-222222222222', 'Tanvir Hasan', 'tenant2@rentease.demo', '+880 1612-345678', 'tenant', 'Active'),
   ('33333333-3333-4333-8333-333333333333', 'Farhan Ahmed', 'landlord@gmail.com', '+880 1812-345678', 'landlord', 'Active'),
   ('44444444-4444-4444-8444-444444444444', 'Rashida Karim', 'landlord2@rentease.demo', '+880 1512-345678', 'landlord', 'Active'),
-  ('55555555-5555-4555-8555-555555555555', 'Samira Rahman', 'admin123@gmail.com', '+880 1912-345678', 'admin', 'Active')
+  ('55555555-5555-4555-8555-555555555555', 'Samira Rahman', 'admin@rentease.demo', '+880 1912-345678', 'admin', 'Active')
 on conflict (id) do update set name = excluded.name, phone = excluded.phone, role = excluded.role, status = excluded.status;
 
 insert into public.properties (id, slug, title, type, address, city, rent, bedrooms, bathrooms, area, image, landlord_id, availability, approval, description, amenities, available_from)
