@@ -20,7 +20,7 @@ The database trigger creates a profile whenever a user signs up through Supabase
 
 ## 4. Realtime behavior
 
-The client helper [`src/lib/supabase-data.js`](../src/lib/supabase-data.js) loads all permitted records and subscribes to Postgres changes. Realtime is filtered by the database's RLS policies; it is not a replacement for authorization. The current dashboard mutation handlers still use the local demo store, so do not treat this stage as a production data migration until those handlers are moved to explicit Supabase inserts/updates.
+The client helper [`src/lib/supabase-data.js`](../src/lib/supabase-data.js) loads all permitted records and subscribes to Postgres changes. Realtime is filtered by the database's RLS policies; it is not a replacement for authorization. The app does not persist the dataset in browser localStorage when Supabase is configured. The current dashboard mutation handlers still need to be moved to explicit Supabase inserts/updates before production use.
 
 ## 5. Seed data
 
@@ -28,11 +28,11 @@ In Supabase SQL Editor, run [`supabase/seed.sql`](../supabase/seed.sql) after th
 
 | Role | Email | Password |
 |---|---|---|
-| Tenant | `tenant@rentease.demo` | `Tenant123!` |
+| Tenant | `tenantdemo@gmail.com` | `demo@1234` |
 | Tenant | `tenant2@rentease.demo` | `Tenant123!` |
-| Landlord | `landlord@rentease.demo` | `Landlord123!` |
+| Landlord | `landlord@gmail.com` | `demo@1234` |
 | Landlord | `landlord2@rentease.demo` | `Landlord123!` |
-| Admin | `admin@rentease.demo` | `Admin123!` |
+| Admin | `admin123@gmail.com` | `demo@1234` |
 
 These are illustrative credentials only. Change or remove them before production.
 

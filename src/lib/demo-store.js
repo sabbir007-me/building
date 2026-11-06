@@ -1,8 +1,10 @@
 import { seedDemoData } from '@/data/rentease';
+import { supabase } from '@/lib/supabase';
 const DATA_KEY = 'rentease-demo-data';
 const SESSION_KEY = 'rentease-demo-session';
 const DATA_CHANGE_EVENT = 'rentease-data-change';
 const SESSION_CHANGE_EVENT = 'rentease-session-change';
+let runtimeData = null;
 function isObject(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -78,6 +80,23 @@ function persistSeed(seed) {
 export function initializeDemoData() {
     if (!isBrowser())
         return cloneSeed();
+    if (supabase) {
+        try {
+            window.localStorage.removeItem(DATA_KEY);
+        }
+        catch (error) {
+            console.error('Unable to clear the retired local RentEase demo data.', error);
+        }
+        return runtimeData ?? {
+            users: [],
+            properties: [],
+            applications: [],
+            rentals: [],
+            payments: [],
+            maintenance: [],
+            notifications: [],
+        };
+    }
     let raw;
     try {
         raw = window.localStorage.getItem(DATA_KEY);
@@ -125,6 +144,11 @@ export function readDemoData() {
 export function writeDemoData(data) {
     if (!isBrowser())
         return;
+    if (supabase) {
+        runtimeData = structuredClone(data);
+        announce(DATA_CHANGE_EVENT);
+        return;
+    }
     try {
         window.localStorage.setItem(DATA_KEY, JSON.stringify(data));
         announce(DATA_CHANGE_EVENT);
@@ -174,6 +198,26 @@ export function deleteDemoRecord(collection, id) {
     });
 }
 export function resetDemoData() {
+    if (supabase) {
+        runtimeData = null;
+        try {
+            window.localStorage.removeItem(DATA_KEY);
+        }
+        catch (error) {
+            console.error('Unable to clear the retired local RentEase demo data.', error);
+        }
+        writeSession(null);
+        announce(DATA_CHANGE_EVENT);
+        return {
+            users: [],
+            properties: [],
+            applications: [],
+            rentals: [],
+            payments: [],
+            maintenance: [],
+            notifications: [],
+        };
+    }
     const seed = cloneSeed();
     writeDemoData(seed);
     writeSession(null);

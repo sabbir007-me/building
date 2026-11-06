@@ -30,19 +30,19 @@ The login page's Demo access controls can fill these sample credentials:
 
 | Role | Email | Password |
 |---|---|---|
-| Tenant | `tenant@rentease.demo` | `Tenant123!` |
-| Landlord | `landlord@rentease.demo` | `Landlord123!` |
-| Administrator | `admin@rentease.demo` | `Admin123!` |
+| Tenant | `tenantdemo@gmail.com` | `demo@1234` |
+| Landlord | `landlord@gmail.com` | `demo@1234` |
+| Administrator | `admin123@gmail.com` | `demo@1234` |
 
 Use only these illustrative credentials; do not enter a real password or confidential data.
 
 ## Persistence
 
-The seed records live in `src/data/rentease.js`; browser persistence and session helpers live in `src/lib/demo-store.js`. On first use, the store copies the seed into `localStorage` under `rentease-demo-data`. It preserves later edits, migrates older records to include notifications, and restores the sample records when saved JSON is malformed or has an unsupported shape. Session storage keeps only the current user ID, in local storage when “Remember me” is selected, or in session storage otherwise.
+In Supabase mode, the database seed is [`supabase/seed.sql`](supabase/seed.sql). The app clears the retired `rentease-demo-data` localStorage key and keeps synchronized records in memory only. Session identity is managed by Supabase Auth.
 
 Profiles, listings, applications, rental agreements, rent and utility payment records, maintenance requests, and notifications are saved in one shared data object. Updates dispatch a same-tab event and browser storage events refresh open tabs. Use **Reset demo data** in the dashboard profile menu and confirm to restore original records and sign out.
 
-Without Supabase environment variables, the app keeps the original local demo mode. With Supabase configured, authentication uses Supabase Auth and the read/realtime foundation connects to Postgres with Row Level Security. The existing dashboard write handlers remain local until each mutation is moved to its corresponding Supabase operation; see [Supabase setup](docs/SUPABASE_SETUP.md).
+With Supabase configured, authentication uses Supabase Auth, data is loaded from Postgres, and Realtime changes are held in memory for the current page. The local demo dataset and browser data persistence are disabled; dashboard write handlers must use Supabase CRUD operations. See [Supabase setup](docs/SUPABASE_SETUP.md).
 
 ## Quality checks
 
